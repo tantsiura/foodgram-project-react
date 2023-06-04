@@ -101,9 +101,12 @@ jobs:
             
             cd foodgram
             sudo docker-compose stop
+<<<<<<< HEAD
             sudo docker-compose down
             sudo docker rm -fv $(docker ps -aq)
             sudo lsof -i -P -n | grep ':80'
+=======
+>>>>>>> f97050a457469a535da2f60474235cddb5c442a0
             
             sudo docker-compose rm backend
             sudo docker-compose pull backend
