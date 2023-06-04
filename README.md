@@ -41,7 +41,7 @@ The following functions are implemented in the project:
     POSTGRES_PASSWORD    postgres # password to connect to the database (set your own)
     DB_HOST              db # name of the service (container)
     DB_PORT              5432 # port for connecting to the database
-    HOST                 194.212.231.123 # server ip
+    HOST                 158.160.11.231 # server ip
     USER                 tantsiura # UserName to connect to the server
     SSH_KEY              # Private access key to connect to the server `cat ~/.ssh/id_rsa`
     PASSPHRASE           # Secret key\passphrase if your ssh key is protected with a passphrase
