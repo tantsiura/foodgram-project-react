@@ -19,7 +19,7 @@ services:
       - ./.env
 
   frontend:
-    image: tantsiura/foodgram_frontend
+    image: tantsiura/foodgram-frontend
     volumes:
       - ../frontend/:/app/result_build/
     depends_on:
