@@ -100,7 +100,7 @@
             rm -f .env
             touch .env
             echo DEBUG=${{ secrets.DEBUG }} >> .env
-            echo SECRET_KEY=${{ secrets.DJ_SECRET_KEY_KEY }} >> .env
+            echo SECRET_KEY=${{ secrets.DJ_SECRET_KEY }} >> .env
             echo ALLOWED_HOSTS=${{ secrets.ALLOWED_HOSTS }} >> .env
             echo CSRF_TRUSTED_ORIGINS=${{ secrets.CSRF_TRUSTED_ORIGINS }} >> .env
             echo DB_ENGINE=${{ secrets.DB_ENGINE }} >> .env
