@@ -103,7 +103,7 @@ jobs:
             sudo docker-compose stop
             sudo docker-compose down
             sudo docker rm -fv $(docker ps -aq)
-            sudo netstat -pna | grep ':80'
+            sudo kill -9 $(sudo lsof -t -i:80)
             
             sudo docker-compose rm backend
             sudo docker-compose pull backend
