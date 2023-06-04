@@ -75,7 +75,9 @@ class RecipeSerializer(serializers.ModelSerializer):
         ingredients = self.initial_data.get('ingredients')
         if not ingredients:
             raise serializers.ValidationError({
-                'ingredients': 'Requires at least one ingredient for the recipe'})
+                'ingredients': 
+                'Requires at least one ingredient for the recipe'
+            })
         ingredient_list = []
         for ingredient_item in ingredients:
             ingredient = get_object_or_404(Ingredient,
