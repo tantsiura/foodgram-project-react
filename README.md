@@ -58,7 +58,7 @@ The following functions are implemented in the project:
     docker-compose exec web python manage.py migrate
     ```
 
-- И создать суперпользователя:
+- And create superuser:
 
     ```bash
     docker-compose exec web python manage.py createsuperuser
