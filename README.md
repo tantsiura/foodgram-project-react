@@ -1,4 +1,4 @@
-# Проект Foodgram
+# Foodgram project
 ![example workflow](https://github.com/tantsiura/foodgram-project-react/actions/workflows/foodgram_workflow.yml/badge.svg)
 [![Python](https://img.shields.io/badge/-Python-464646?style=flat-square&logo=Python)](https://www.python.org/)
 [![Django](https://img.shields.io/badge/-Django-464646?style=flat-square&logo=Django)](https://www.djangoproject.com/)
@@ -10,64 +10,64 @@
 [![GitHub%20Actions](https://img.shields.io/badge/-GitHub%20Actions-464646?style=flat-square&logo=GitHub%20actions)](https://github.com/features/actions)
 [![Yandex.Cloud](https://img.shields.io/badge/-Yandex.Cloud-464646?style=flat-square&logo=Yandex.Cloud)](https://cloud.yandex.ru/)
 
-### Примеры запросов API
+### API request examples
 
-Документация и примеры запросов представлены в формате Redoc.
-После запуска отладочного web-сервера проекта документация будет доступна по адресу [http://127.0.0.1:8000/redoc/](http://127.0.0.1:8000/redoc/).
+Documentation and query examples are in Redoc format.
+After launching the project's debug web server, the documentation will be available at [http://127.0.0.1:8000/redoc/](http://127.0.0.1:8000/redoc/).
 
-### Описание проекта
+### Project Description
 
-Foodgram - плтаформа для публикации рецептов. 
-В проекте реализованы следующие функции:
-- подписка авторизованными пользователями на понравившихся авторов;
-- добавление рецептов в избранное; 
-- внесение необходимых для приготовления блюд ингредиентов в список покупок;
-- скачивание списка покупок.
+Foodgram is a recipe publishing platform. 
+The following functions are implemented in the project:
+- subscription by authorized users to favorite authors;
+- adding recipes to favorites; 
+- adding the ingredients needed for cooking to the shopping list;
+- shopping list download.
 
-## Как запустить проект:
-- Клонируйте репозиторий `git@github.com:tantsiura/foodgram-project-react.git`
-- Скопируйте файлы `docker-compose.yaml` и `nginx/default.conf` из проекта в папке _**infra**_ на сервер в `home/<ваш_username>/docker-compose.yaml` и `home/<ваш_username>/nginx/default.conf` соответственно.
-- Установите docker:
+## How to start a project:
+- Clone the repository `git@github.com:tantsiura/foodgram-project-react.git`
+- Copy files `docker-compose.yaml` и `nginx/default.conf` from a project in a folder _**infra**_ to the server in `home/<your_username>/docker-compose.yaml` and `home/<your_username>/nginx/default.conf`.
+- Install docker:
     ```bash
     sudo apt install docker.io 
     ```
-- Установите docker-compose, с этим вам поможет [официальная документация](https://docs.docker.com/compose/install/).
-- Заполните Secrets Actions по шаблону наполнения env переменных в GitHub Actions
+- Install docker-compose, this will help you [official documentation](https://docs.docker.com/compose/install/).
+- Populate Secrets Actions following the pattern of filling env variables in GitHub Actions:
     ```
-    Наименование:        Содержание:
-    DB_ENGINE            django.db.backends.postgresql # указываем, что работаем с postgresql
-    DB_NAME              postgres # имя базы данных
-    POSTGRES_USER        postgres # логин для подключения к базе данных
-    POSTGRES_PASSWORD    postgres # пароль для подключения к БД (установите свой)
-    DB_HOST              db # название сервиса (контейнера)
-    DB_PORT              5432 # порт для подключения к БД 
-    HOST                 194.212.231.123 # ip сервера
-    USER                 tantsiura # UserName для подключению к серверу
-    SSH_KEY              # Приватный ключ доступа для подключению к серверу `cat ~/.ssh/id_rsa`
-    PASSPHRASE           # Серкретный ключ\фраза, если ваш ssh-ключ защищён фразой-паролем
-    TELEGRAM_TO          # id чата пользователя или чата куда бот будет отправлять результат успешного выполнения
-    TELEGRAM_TOKEN       # Токен бота ТГ для отправки уведомления
-    DOCKER_USERNAME      # Имя пользователя Docker для публикации образов
-    DOCKER_PASSWORD      # Пароль пользоывателя Docker
+    Name:                Content:
+    DB_ENGINE            django.db.backends.postgresql # indicate that we are working with postgresql
+    DB_NAME              postgres # database name
+    POSTGRES_USER        postgres # login to connect to the database
+    POSTGRES_PASSWORD    postgres # password to connect to the database (set your own)
+    DB_HOST              db # name of the service (container)
+    DB_PORT              5432 # port for connecting to the database
+    HOST                 158.160.11.231 # server ip
+    USER                 tantsiura # UserName to connect to the server
+    SSH_KEY              # Private access key to connect to the server `cat ~/.ssh/id_rsa`
+    PASSPHRASE           # Secret key\passphrase if your ssh key is protected with a passphrase
+    TELEGRAM_TO          # id of the user's chat or the chat where the bot will send the success result
+    TELEGRAM_TOKEN       # Bot token TG for sending notification
+    DOCKER_USERNAME      # Docker username for publishing images
+    DOCKER_PASSWORD      # Docker user password
     ```
-- Сделайте коммит в ветку Master/Main и готовый проект развернется у вас на сервере
+- Make a commit to the Master/Main branch and the finished project will be deployed on your server
 
-- На сервере после запуска выполнить миграции:
+- Run the migrations on the server after launch:
 
     ```bash
     docker-compose exec web python manage.py migrate
     ```
 
-- И создать суперпользователя:
+- And create superuser:
 
     ```bash
     docker-compose exec web python manage.py createsuperuser
     ```
 
-- Заполнение БД в ручную или используя готовое наполнение
+- Filling the database manually or using ready-made filling:
     ```bash
     docker-compose exec web python manage.py shell  
-    # выполнить в открывшемся терминале:
+    # execute in the opened terminal:
     >>> from django.contrib.contenttypes.models import ContentType
     >>> ContentType.objects.all().delete()
     >>> quit()
@@ -75,11 +75,11 @@ Foodgram - плтаформа для публикации рецептов.
     docker-compose exec web python manage.py loaddata fixtures.json
     ```
 
-# Технологии
+# Technologies
 ```
 Python, Django, HTTP, HTTPS, Django Rest Framework, PostgreSQL, GitHub Actions, DockerHub
 ```
 
-# Авторы
+# Authors
 
-Автор: [tantsiura](https://github.com/tantsiura)
+Author: [tantsiura](https://github.com/tantsiura)
