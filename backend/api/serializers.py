@@ -1,11 +1,11 @@
-from api.models import Ingredient, IngredientAmount, Recipe, Tag
 from django.shortcuts import get_object_or_404
+from django.db import transaction
 from drf_extra_fields.fields import Base64ImageField
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
 from users.models import Follow
 from users.serializers import CustomUserSerializer
-
+from api.models import Ingredient, IngredientAmount, Recipe, Tag
 
 class TagSerializer(serializers.ModelSerializer):
     """Class for converting tag data."""
@@ -85,7 +85,7 @@ class RecipeSerializer(serializers.ModelSerializer):
             if ingredient in ingredient_list:
                 raise serializers.ValidationError('Ingredients must be unique')
             ingredient_list.append(ingredient)
-            if int(ingredient_item['amount']) < 0:
+            if int(ingredient_item['amount']) <= 0:
                 raise serializers.ValidationError({
                     'ingredients': ('Make sure the ingredient '
                                     'quantity value is greater than 0')
@@ -101,6 +101,7 @@ class RecipeSerializer(serializers.ModelSerializer):
                 amount=ingredient.get('amount'),
             )
 
+    @transaction.atomic
     def create(self, validated_data):
         image = validated_data.pop('image')
         ingredients_data = validated_data.pop('ingredients')
@@ -109,7 +110,8 @@ class RecipeSerializer(serializers.ModelSerializer):
         recipe.tags.set(tags_data)
         self.create_ingredients(ingredients_data, recipe)
         return recipe
-
+    
+    @transaction.atomic
     def update(self, instance, validated_data):
         instance.image = validated_data.get('image', instance.image)
         instance.name = validated_data.get('name', instance.name)

@@ -1,3 +1,4 @@
+import constants
 from django.contrib.auth import get_user_model
 from django.core import validators
 from django.db import models
@@ -13,7 +14,7 @@ class Ingredient(models.Model):
                                         verbose_name='Unit')
 
     class Meta:
-        ordering = ['-id']
+        ordering = ('-id')
         verbose_name = 'Ingredient'
         verbose_name_plural = 'Ingredients'
         constraints = [
@@ -27,11 +28,11 @@ class Ingredient(models.Model):
 
 class Tag(models.Model):
     """Tag model."""
-    BLUE = '#0000FF'
-    ORANGE = '#FFA500'
-    GREEN = '#008000'
-    PURPLE = '#800080'
-    YELLOW = '#FFFF00'
+    BLUE = constants.BLUE
+    ORANGE = constants.ORANGE
+    GREEN = constants.GREEN
+    PURPLE = constants.PURPLE
+    YELLOW = constants.YELLOW
 
     COLOR_CHOICES = [
         (BLUE, 'Blue'),
@@ -48,7 +49,7 @@ class Tag(models.Model):
                             verbose_name='Unique Slug')
 
     class Meta:
-        ordering = ['-id']
+        ordering = ('-id')
         verbose_name = 'Tag'
         verbose_name_plural = 'Tags'
 
@@ -83,7 +84,7 @@ class Recipe(models.Model):
         verbose_name='Cooking time')
 
     class Meta:
-        ordering = ['-id']
+        ordering = ('-id')
         verbose_name = 'Recipe'
         verbose_name_plural = 'Recipes'
 
@@ -108,7 +109,7 @@ class IngredientAmount(models.Model):
     )
 
     class Meta:
-        ordering = ['-id']
+        ordering = ('-id')
         verbose_name = 'Ingredient quantity'
         verbose_name_plural = 'Quantity of ingredients'
         constraints = [
@@ -132,7 +133,7 @@ class Favorite(models.Model):
     )
 
     class Meta:
-        ordering = ['-id']
+        ordering = ('-id')
         verbose_name = 'Favorite'
         verbose_name_plural = 'Favorites'
         constraints = [
@@ -157,7 +158,7 @@ class Cart(models.Model):
     )
 
     class Meta:
-        ordering = ['-id']
+        ordering = ('-id')
         verbose_name = 'Cart'
         verbose_name_plural = 'In the cart'
         constraints = [
