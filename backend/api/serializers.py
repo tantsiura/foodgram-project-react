@@ -7,6 +7,7 @@ from users.models import Follow
 from users.serializers import CustomUserSerializer
 from api.models import Ingredient, IngredientAmount, Recipe, Tag
 
+
 class TagSerializer(serializers.ModelSerializer):
     """Class for converting tag data."""
     class Meta:
@@ -110,7 +111,7 @@ class RecipeSerializer(serializers.ModelSerializer):
         recipe.tags.set(tags_data)
         self.create_ingredients(ingredients_data, recipe)
         return recipe
-    
+
     @transaction.atomic
     def update(self, instance, validated_data):
         instance.image = validated_data.get('image', instance.image)
