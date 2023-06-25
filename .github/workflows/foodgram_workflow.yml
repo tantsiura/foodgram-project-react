@@ -102,7 +102,6 @@ jobs:
             sudo echo DB_HOST=${{ secrets.DB_HOST }} >> .env
             sudo echo DB_PORT=${{ secrets.DB_PORT }} >> .env
             
-            cd foodgram
             sudo docker-compose stop
             sudo docker-compose down
             sudo docker rm -fv $(docker ps -aq)
