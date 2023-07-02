@@ -1,92 +1,67 @@
 from django.contrib.auth.models import AbstractUser
-from django.core.validators import RegexValidator
+from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.db import models
+from django.db.models import UniqueConstraint
+
+from users.customfields import LowercaseEmailField
 
 
 class User(AbstractUser):
-    """User model."""
-
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = (
-        'username',
-        'first_name',
-        'last_name',
-    )
-
-    username = models.CharField(
-        null=False,
-        blank=False,
-        max_length=150,
-        unique=True,
-        validators=[
-            RegexValidator(r'^[\w.@+-]+\Z'),
-        ],
-    )
-    email = models.EmailField(
-        null=False,
-        blank=False,
-        max_length=254,
-        unique=True,
-    )
+    """Customized user model."""
+    email = LowercaseEmailField(
+        'Email',
+        unique=True,)
     first_name = models.CharField(
-        max_length=150,
+        verbose_name="Name", max_length=150, blank=False
     )
     last_name = models.CharField(
-        max_length=150,
+        verbose_name="Surname", max_length=150, blank=False
     )
-    password = models.CharField(
+    username_validator = UnicodeUsernameValidator()
+    username = models.CharField(
+        verbose_name="Unique username",
         max_length=150,
-        null=True,
-        blank=True,
+        unique=True,
+        help_text="Max 150 characters. Letters, numbers and @/./+/-/_.",
+        validators=[username_validator],
+        error_messages={
+            "unique": "User already exists",
+        },
+    )
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = (
+        "first_name",
+        "last_name",
+        "password",
+        "username",
     )
 
     class Meta:
-        constraints = [
-            models.UniqueConstraint(
-                fields=[
-                    'username',
-                    'email',
-                ],
-                name='unique_user',
-            )
-        ]
-
-        verbose_name = 'User'
-        verbose_name_plural = 'Users'
-
-    def __str__(self):
-        return self.username
+        ordering = ("id",)
+        verbose_name = "User"
+        verbose_name_plural = "Users"
 
 
-class Follow(models.Model):
-    """Model of subscriptions to other users."""
-
+class Subscribe(models.Model):
     user = models.ForeignKey(
         User,
+        related_name="subscriber",
+        verbose_name="Subscriber",
         on_delete=models.CASCADE,
-        related_name='follower',
-        verbose_name='User',
     )
-
     author = models.ForeignKey(
         User,
+        related_name="subscribing",
+        verbose_name="Author",
         on_delete=models.CASCADE,
-        related_name='following',
-        verbose_name='Subscribed to the author',
     )
 
     class Meta:
-        ordering = ('-id',)
-        verbose_name = 'Subscribe to the author'
-        verbose_name_plural = 'Author Subscriptions'
+        ordering = ["id"]
         constraints = [
-            models.UniqueConstraint(
-                fields=['user', 'author'], name='unique_user_author'
-            ),
-            models.CheckConstraint(
-                check=~models.Q(author=models.F('user')), name='no_self_follow'
-            ),
+            UniqueConstraint(
+                fields=["user", "author"], name="unique_subscription"
+            )
         ]
-
-    def __str__(self):
-        return f'User {self.user} is subscribed to {self.author}'
+        verbose_name = "Subscription"
+        verbose_name_plural = "Subscriptions"
