@@ -67,7 +67,7 @@ if DEBUG:
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': BASE_DIR / 'db.sqlite3',
-            #'ATOMIC_REQUESTS': 'TRUE',
+            'ATOMIC_REQUESTS': 'TRUE',
         }
     }
 else:
@@ -79,7 +79,7 @@ else:
             'NAME': os.getenv(
                 'DB_NAME',
                 default='postgres'),
-            #'ATOMIC_REQUESTS': 'TRUE',
+            'ATOMIC_REQUESTS': 'TRUE',
             'USER': os.getenv(
                 'POSTGRES_USER',
                 default='postgres'),
@@ -174,5 +174,6 @@ CORS_ALLOWED_ORIGINS = [
 ]
 CSRF_TRUSTED_ORIGINS = [
     ("http://*localhost"),
-    ("https://*localhost")
+    ("https://*localhost"),
+    ("http://127.0.0.1:8000/"),
 ]
