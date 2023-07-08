@@ -2,7 +2,7 @@ from rest_framework.permissions import SAFE_METHODS, BasePermission
 
 
 class AdminOrReadOnly(BasePermission):
-    """Access rights for the administrator."""
+    '''Access rights for the administrator.'''
 
     def has_permission(self, request, view):
         return (
@@ -13,7 +13,7 @@ class AdminOrReadOnly(BasePermission):
 
 
 class AuthorOrReadOnly(BasePermission):
-    """Access rights only for the author or administrator."""
+    '''Access rights only for the author or administrator.'''
 
     def has_permission(self, request, view):
         return (
@@ -30,7 +30,7 @@ class AuthorOrReadOnly(BasePermission):
 
 
 class AdminOrAuthor(BasePermission):
-    """Access rights for the author and administrator."""
+    '''Access rights for the author and administrator.'''
 
     def has_object_permission(self, request, view, obj):
         return (

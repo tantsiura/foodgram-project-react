@@ -17,14 +17,14 @@ from api.serializers import (CustomUserSerializer, IngridientsSerializer,
                              RecipeSerializerWrite, SubscribeSerializer,
                              TagSerializer)
 from recipe.models import (Favorite, Ingredient, IngredientUnits, Recipe,
-                            ShoppingCart, Tag)
+                           ShoppingCart, Tag)
 from users.models import Subscribe
 
 User = get_user_model()
 
 
 class UsersViewSet(UserViewSet):
-    """Viewset for user models."""
+    '''Viewset for user models.'''
     queryset = User.objects.all()
     serializer_class = CustomUserSerializer
     filter_backends = (DjangoFilterBackend, filters.SearchFilter,)
@@ -86,8 +86,8 @@ class RecipeViewSet(ModelViewSet):
 
     def get_serializer_class(self):
         if self.action in (
-            "list",
-            "retrieve",
+            'list',
+            'retrieve',
         ):
             return RecipeSerializerRead
         return RecipeSerializerWrite
@@ -119,7 +119,7 @@ class RecipeViewSet(ModelViewSet):
 
     def save(self, model, user, pk):
         if model.objects.filter(user=user, recipe__id=pk).exists():
-            return Response({"errors": "The recipe has been added!"},
+            return Response({'errors': 'The recipe has been added!'},
                             status=status.HTTP_400_BAD_REQUEST)
         recipe = get_object_or_404(Recipe, id=pk)
         obj = model.objects.create(user=user, recipe=recipe)
@@ -130,10 +130,10 @@ class RecipeViewSet(ModelViewSet):
         obj = model.objects.filter(user=user, recipe__id=pk)
         if obj.exists():
             obj.delete()
-            return Response({"message":
-                             "The recipe has been successfully deleted."},
+            return Response({'message':
+                             'The recipe has been successfully deleted.'},
                             status=status.HTTP_204_NO_CONTENT)
-        return Response({"errors": "The recipe has been deleted!"},
+        return Response({'errors': 'The recipe has been deleted!'},
                         status=status.HTTP_400_BAD_REQUEST)
 
     @action(
@@ -144,14 +144,14 @@ class RecipeViewSet(ModelViewSet):
         user = request.user
         ingredients = (
             IngredientUnits.objects.filter(recipe__in_shopping_cart__user=user)
-            .values("ingredient__name", "ingredient__measurement_unit")
-            .annotate(total_amount=Sum("amount"))
+            .values('ingredient__name', 'ingredient__measurement_unit')
+            .annotate(total_amount=Sum('amount'))
         )
         data = ingredients.values_list(
-            "ingredient__name", "ingredient__measurement_unit", "total_amount"
+            'ingredient__name', 'ingredient__measurement_unit', 'total_amount'
         )
-        shopping_cart = "Shopping list:\n"
+        shopping_cart = 'Shopping list:\n'
         for name, measure, amount in data:
-            shopping_cart += f"{name.capitalize()} {amount} {measure},\n"
+            shopping_cart += f'{name.capitalize()} {amount} {measure},\n'
 
-        return HttpResponse(shopping_cart, content_type="text/plain")
+        return HttpResponse(shopping_cart, content_type='text/plain')

@@ -6,7 +6,7 @@ from recipe.models import Ingredient, Recipe, Tag
 
 
 class IngredientFilter(rest_framework.FilterSet):
-    """Ingredient filter."""
+    '''Ingredient filter.'''
     name = rest_framework.CharFilter(lookup_expr='startswith')
 
     class Meta:
@@ -15,7 +15,7 @@ class IngredientFilter(rest_framework.FilterSet):
 
 
 class RecipeFilter(FilterSet):
-    """Filter for recipes: by favorites, shopping list, author and tags."""
+    '''Filter for recipes: by favorites, shopping list, author and tags.'''
     name = django_filters.CharFilter(
         field_name='name',
     )

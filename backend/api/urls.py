@@ -6,11 +6,11 @@ from api.views import (IngredientViewSet, RecipeViewSet, TagViewSet,
 
 router = routers.DefaultRouter()
 
-router.register("tags", TagViewSet)
-router.register("ingredients", IngredientViewSet)
-router.register("recipes", RecipeViewSet)
+router.register('tags', TagViewSet)
+router.register('ingredients', IngredientViewSet)
+router.register('recipes', RecipeViewSet)
 router.register('users', UsersViewSet, basename='users')
 
 urlpatterns = [
-    path("", include(router.urls)),
+    path('', include(router.urls)),
 ]
