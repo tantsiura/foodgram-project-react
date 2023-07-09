@@ -10,6 +10,10 @@
 [![GitHub%20Actions](https://img.shields.io/badge/-GitHub%20Actions-464646?style=flat-square&logo=GitHub%20actions)](https://github.com/features/actions)
 [![Yandex.Cloud](https://img.shields.io/badge/-Yandex.Cloud-464646?style=flat-square&logo=Yandex.Cloud)](https://cloud.yandex.ru/)
 
+### The project is available at
+
+158.160.11.231/
+
 ### API request examples
 
 Documentation and query examples are in Redoc format.
@@ -26,7 +30,7 @@ The following functions are implemented in the project:
 
 ## How to start a project:
 - Clone the repository `git@github.com:tantsiura/foodgram-project-react.git`
-- Copy files `docker-compose.yaml` и `nginx/default.conf` from a project in a folder _**infra**_ to the server in `home/<your_username>/docker-compose.yaml` and `home/<your_username>/nginx/default.conf`.
+- Copy files `docker-compose.yaml` и `nginx.conf` from a project in a folder _**infra**_ to the server in `home/<your_username>/docker-compose.yaml` and `home/<your_username>/nginx.conf`.
 - Install docker:
     ```bash
     sudo apt install docker.io 
@@ -41,8 +45,8 @@ The following functions are implemented in the project:
     POSTGRES_PASSWORD    postgres # password to connect to the database (set your own)
     DB_HOST              db # name of the service (container)
     DB_PORT              5432 # port for connecting to the database
-    HOST                 158.160.11.231 # server ip
-    USER                 tantsiura # UserName to connect to the server
+    HOST                 # server ip
+    USER                 # UserName to connect to the server
     SSH_KEY              # Private access key to connect to the server `cat ~/.ssh/id_rsa`
     PASSPHRASE           # Secret key\passphrase if your ssh key is protected with a passphrase
     TELEGRAM_TO          # id of the user's chat or the chat where the bot will send the success result
@@ -55,24 +59,27 @@ The following functions are implemented in the project:
 - Run the migrations on the server after launch:
 
     ```bash
-    docker-compose exec web python manage.py migrate
+    sudo docker-compose exec web python manage.py makemigrations
+    sudo docker-compose exec web python manage.py migrate
     ```
 
 - And create superuser:
 
     ```bash
-    docker-compose exec web python manage.py createsuperuser
+    sudo docker-compose exec web python manage.py createsuperuser
     ```
 
 - Filling the database manually or using ready-made filling:
     ```bash
-    docker-compose exec web python manage.py shell  
+    sudo docker-compose exec web python manage.py shell  
     # execute in the opened terminal:
     >>> from django.contrib.contenttypes.models import ContentType
     >>> ContentType.objects.all().delete()
     >>> quit()
     
-    docker-compose exec web python manage.py loaddata fixtures.json
+    sudo docker-compose exec backend python manage.py loadmodels --path 'static/data/ingredients.json'
+    sudo docker-compose exec backend python manage.py loadmodels --path 'static/data/tags.json'
+
     ```
 
 # Technologies
