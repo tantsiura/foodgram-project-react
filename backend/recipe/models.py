@@ -33,12 +33,6 @@ class Tag(models.Model):
         return self.name
 
 
-class TagImport(models.Model):
-    '''Tag import model.'''
-    csv_file = models.FileField(upload_to='static/data/')
-    date_added = models.DateTimeField(auto_now_add=True)
-
-
 class Ingredient(models.Model):
     '''Ingredient model.'''
 
@@ -58,12 +52,6 @@ class Ingredient(models.Model):
 
     def __str__(self) -> str:
         return f'{self.name} {self.measurement_unit}'
-
-
-class IngredientImport(models.Model):
-    '''Ingredient import model.'''
-    csv_file = models.FileField(upload_to='static/data/')
-    date_added = models.DateTimeField(auto_now_add=True)
 
 
 class Recipe(models.Model):
@@ -109,12 +97,6 @@ class Recipe(models.Model):
     )
 
 
-class RecipeImport(models.Model):
-    '''Recipe import model.'''
-    csv_file = models.FileField(upload_to='static/data/')
-    date_added = models.DateTimeField(auto_now_add=True)
-
-
 class IngredientUnits(models.Model):
     '''
     Recipe relationship model with ingredients
@@ -142,12 +124,6 @@ class IngredientUnits(models.Model):
 
     def __str__(self) -> str:
         return f'{self.amount} {self.ingredient}'
-
-
-class IngredientUnitsImport(models.Model):
-    '''Ingredient units import model.'''
-    csv_file = models.FileField(upload_to='static/data/')
-    date_added = models.DateTimeField(auto_now_add=True)
 
 
 class Favorite(models.Model):

@@ -10,6 +10,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
 
+from api.pagination import LimitPageNumberPagination
 from api.filters import IngredientFilter, RecipeFilter
 from api.permissions import AdminOrAuthor, AdminOrReadOnly
 from api.serializers import (CustomUserSerializer, IngridientsSerializer,
@@ -83,6 +84,7 @@ class RecipeViewSet(ModelViewSet):
     queryset = Recipe.objects.all()
     permission_classes = (AdminOrAuthor,)
     filterset_class = RecipeFilter
+    pagination_class = LimitPageNumberPagination
 
     def get_serializer_class(self):
         if self.action in (
