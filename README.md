@@ -12,7 +12,7 @@
 
 ### The project is available at
 
-158.160.11.231/
+http://158.160.11.231/
 
 ### API request examples
 
