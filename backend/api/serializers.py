@@ -1,5 +1,6 @@
 import base64
-
+from recipe.models import Ingredient, IngredientUnits, Recipe, Tag
+from users.models import Subscribe
 from django.contrib.auth import get_user_model
 from django.core.files.base import ContentFile
 from django.db.models import F
@@ -7,9 +8,6 @@ from django.shortcuts import get_list_or_404
 from djoser.serializers import UserCreateSerializer, UserSerializer
 from rest_framework import serializers
 from rest_framework.fields import IntegerField
-
-from recipe.models import Ingredient, IngredientUnits, Recipe, Tag
-from users.models import Subscribe
 
 User = get_user_model()
 

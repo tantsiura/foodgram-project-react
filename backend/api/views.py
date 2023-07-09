@@ -1,3 +1,13 @@
+from api.pagination import LimitPageNumberPagination
+from api.filters import IngredientFilter, RecipeFilter
+from api.permissions import AdminOrAuthor, AdminOrReadOnly
+from api.serializers import (CustomUserSerializer, IngridientsSerializer,
+                             RecipeFavoriteAndShopping, RecipeSerializerRead,
+                             RecipeSerializerWrite, SubscribeSerializer,
+                             TagSerializer)
+from recipe.models import (Favorite, Ingredient, IngredientUnits, Recipe,
+                           ShoppingCart, Tag)
+from users.models import Subscribe
 from django.contrib.auth import get_user_model
 from django.db.models import Sum
 from django.http import HttpResponse
@@ -9,17 +19,6 @@ from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
-
-from api.pagination import LimitPageNumberPagination
-from api.filters import IngredientFilter, RecipeFilter
-from api.permissions import AdminOrAuthor, AdminOrReadOnly
-from api.serializers import (CustomUserSerializer, IngridientsSerializer,
-                             RecipeFavoriteAndShopping, RecipeSerializerRead,
-                             RecipeSerializerWrite, SubscribeSerializer,
-                             TagSerializer)
-from recipe.models import (Favorite, Ingredient, IngredientUnits, Recipe,
-                           ShoppingCart, Tag)
-from users.models import Subscribe
 
 User = get_user_model()
 
@@ -105,8 +104,7 @@ class RecipeViewSet(ModelViewSet):
     def favorite(self, request, pk):
         if request.method == 'POST':
             return self.save(Favorite, request.user, pk)
-        else:
-            return self.remove(Favorite, request.user, pk)
+        return self.remove(Favorite, request.user, pk)
 
     @action(
         detail=True,
@@ -116,8 +114,7 @@ class RecipeViewSet(ModelViewSet):
     def shopping_cart(self, request, pk):
         if request.method == 'POST':
             return self.save(ShoppingCart, request.user, pk)
-        else:
-            return self.remove(ShoppingCart, request.user, pk)
+        return self.remove(ShoppingCart, request.user, pk)
 
     def save(self, model, user, pk):
         if model.objects.filter(user=user, recipe__id=pk).exists():
