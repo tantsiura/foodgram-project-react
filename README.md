@@ -30,7 +30,7 @@ The following functions are implemented in the project:
 
 ## How to start a project:
 - Clone the repository `git@github.com:tantsiura/foodgram-project-react.git`
-- Copy files `docker-compose.yaml` и `nginx.conf` from a project in a folder _**infra**_ to the server in `home/<your_username>/docker-compose.yaml` and `home/<your_username>/nginx.conf`.
+- Copy files `docker-compose.yaml` and `nginx.conf` from a project in a folder _**infra**_ to the server in `home/<your_username>/docker-compose.yaml` and `home/<your_username>/nginx.conf`.
 - Install docker:
     ```bash
     sudo apt install docker.io 
