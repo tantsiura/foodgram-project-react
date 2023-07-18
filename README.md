@@ -17,7 +17,7 @@ http://158.160.11.231/
 ### API request examples
 
 Documentation and query examples are in Redoc format.
-After launching the project's debug web server, the documentation will be available at [http://127.0.0.1:8000/redoc/](http://127.0.0.1:8000/redoc/).
+After launching the project's debug backend server, the documentation will be available at [http://127.0.0.1:8000/redoc/](http://127.0.0.1:8000/redoc/).
 
 ### Project Description
 
@@ -33,9 +33,15 @@ The following functions are implemented in the project:
 - Copy files `docker-compose.yaml` and `nginx.conf` from a project in a folder _**infra**_ to the server in `home/<your_username>/docker-compose.yaml` and `home/<your_username>/nginx.conf`.
 - Install docker:
     ```bash
-    sudo apt install docker.io 
-    ```
-- Install docker-compose, this will help you [official documentation](https://docs.docker.com/compose/install/).
+    sudo apt install docker.io
+- Install docker-compose [official documentation](https://docs.docker.com/compose/install/):
+   ```bash
+    sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+    sudo chmod +x /usr/local/bin/docker-compose
+- Build docker-compose on the server:
+    ```bash
+    sudo docker-compose up -d --build
+
 - Populate Secrets Actions following the pattern of filling env variables in GitHub Actions:
     ```
     Name:                Content:
@@ -59,19 +65,19 @@ The following functions are implemented in the project:
 - Run the migrations on the server after launch:
 
     ```bash
-    sudo docker-compose exec web python manage.py makemigrations
-    sudo docker-compose exec web python manage.py migrate
+    sudo docker-compose exec backend python manage.py makemigrations
+    sudo docker-compose exec backend python manage.py migrate
     ```
 
 - And create superuser:
 
     ```bash
-    sudo docker-compose exec web python manage.py createsuperuser
+    sudo docker-compose exec backend python manage.py createsuperuser
     ```
 
 - Filling the database manually or using ready-made filling:
     ```bash
-    sudo docker-compose exec web python manage.py shell  
+    sudo docker-compose exec backend python manage.py shell  
     # execute in the opened terminal:
     >>> from django.contrib.contenttypes.models import ContentType
     >>> ContentType.objects.all().delete()
@@ -81,6 +87,7 @@ The following functions are implemented in the project:
     sudo docker-compose exec backend python manage.py loadmodels --path 'static/data/tags.json'
 
     ```
+![изображение](https://github.com/tantsiura/foodgram-project-react/assets/97056496/65bbe147-ed11-4d8f-8d5b-2b0063e2dd43)
 
 # Technologies
 ```
