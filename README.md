@@ -87,8 +87,6 @@ The following functions are implemented in the project:
     sudo docker-compose exec backend python manage.py loadmodels --path 'static/data/tags.json'
 
     ```
-![изображение](https://github.com/tantsiura/foodgram-project-react/assets/97056496/65bbe147-ed11-4d8f-8d5b-2b0063e2dd43)
-
 # Technologies
 ```
 Python, Django, HTTP, HTTPS, Django Rest Framework, PostgreSQL, GitHub Actions, DockerHub
@@ -97,3 +95,5 @@ Python, Django, HTTP, HTTPS, Django Rest Framework, PostgreSQL, GitHub Actions, 
 # Authors
 
 Author: [tantsiura](https://github.com/tantsiura)
+
+![изображение](https://github.com/tantsiura/foodgram-project-react/assets/97056496/65bbe147-ed11-4d8f-8d5b-2b0063e2dd43)
