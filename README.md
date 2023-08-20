@@ -32,8 +32,8 @@ The following functions are implemented in the project:
 - Clone the repository `git@github.com:tantsiura/foodgram-project-react.git`
 - Copy files `docker-compose.yaml` and `nginx.conf` from a project in a folder _**infra**_ to the server in `home/<your_username>/docker-compose.yaml` and `home/<your_username>/nginx.conf`:
   ```bash
-    scp docker-compose.yml <your_username>@<your IP>:/home/<your_username>/
-    scp nginx.conf <your_username>@<your IP>:/home/<your_username>/
+    scp docker-compose.yml your_username@your_IP:/home/your_username/
+    scp nginx.conf your_username@your_IP:/home/your_username/
 - Install docker:
     ```bash
     sudo apt install docker.io
