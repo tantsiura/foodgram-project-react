@@ -30,7 +30,10 @@ The following functions are implemented in the project:
 
 ## How to start a project:
 - Clone the repository `git@github.com:tantsiura/foodgram-project-react.git`
-- Copy files `docker-compose.yaml` and `nginx.conf` from a project in a folder _**infra**_ to the server in `home/<your_username>/docker-compose.yaml` and `home/<your_username>/nginx.conf`.
+- Copy files `docker-compose.yaml` and `nginx.conf` from a project in a folder _**infra**_ to the server in `home/<your_username>/docker-compose.yaml` and `home/<your_username>/nginx.conf`:
+  ```bash
+    scp docker-compose.yml <your_username>@<your IP>:/home/<your_username>/
+    scp nginx.conf <your_username>@<your IP>:/home/<your_username>/
 - Install docker:
     ```bash
     sudo apt install docker.io
@@ -83,8 +86,8 @@ The following functions are implemented in the project:
     >>> ContentType.objects.all().delete()
     >>> quit()
     
-    sudo docker-compose exec backend python manage.py loadmodels --path 'static/data/ingredients.json'
-    sudo docker-compose exec backend python manage.py loadmodels --path 'static/data/tags.json'
+    sudo docker-compose exec backend python manage.py loadmodels --path 'data/ingredients.json'
+    sudo docker-compose exec backend python manage.py loadmodels --path 'data/tags.json'
 
     ```
 # Technologies
