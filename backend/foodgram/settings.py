@@ -1,35 +1,50 @@
 import os
+from pathlib import Path
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+from dotenv import load_dotenv
 
-SECRET_KEY = os.getenv('DJ_SECRET_KEY', default='123')
+env_path = Path('../infra') / '.env'
+load_dotenv(dotenv_path=env_path)
 
-DEBUG = True
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+SECRET_KEY = os.getenv(
+    'SECRET_KEY',
+    default='django_secret_key'
+)
+
+CSRF_TRUSTED_ORIGINS = [
+    'http://*localhost',
+    'https://*localhost',
+    'http://*158.160.11.231',
+    'https://*158.160.11.231',
+]
+
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
-AUTH_USER_MODEL = 'users.User'
 
 INSTALLED_APPS = [
-    'recipe.apps.RecipeConfig',
-    'api.apps.ApiConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'api.apps.ApiConfig',
+    'recipes.apps.RecipesConfig',
     'users.apps.UsersConfig',
-    'rest_framework',
-    'corsheaders',
-    'rest_framework.authtoken',
-    'djoser',
     'django_filters',
+    'djoser',
+    'rest_framework',
+    'rest_framework.authtoken',
+    'sorl.thumbnail',
+    'colorfield',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -68,47 +83,37 @@ if DEBUG:
 else:
     DATABASES = {
         'default': {
-            'ENGINE': os.getenv(
-                'DB_ENGINE',
-                default='django.db.backends.postgresql'),
-            'NAME': os.getenv(
-                'DB_NAME',
-                default='postgres'),
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.getenv('POSTGRES_DB', 'django'),
+            'USER': os.getenv('POSTGRES_USER', 'django'),
+            'PASSWORD': os.getenv('POSTGRES_PASSWORD', ''),
+            'HOST': os.getenv('DB_HOST', ''),
+            'PORT': os.getenv('DB_PORT', 5432),
             'ATOMIC_REQUESTS': 'TRUE',
-            'USER': os.getenv(
-                'POSTGRES_USER',
-                default='postgres'),
-            'PASSWORD': os.getenv(
-                'POSTGRES_PASSWORD',
-                default='postgres'),
-            'HOST': os.getenv(
-                'DB_HOST',
-                default='db'),
-            'PORT': os.getenv(
-                'DB_PORT',
-                default='5432')
-        }
+            }
     }
 
+AUTH_USER_MODEL = 'users.User'
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.'
                 'UserAttributeSimilarityValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.'
-                'MinimumLengthValidator',
+        'NAME':
+            'django.contrib.auth.password_validation.MinimumLengthValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.'
-                'CommonPasswordValidator',
+        'NAME':
+            'django.contrib.auth.password_validation.CommonPasswordValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.'
-                'NumericPasswordValidator',
+        'NAME':
+            'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
+CONST_LENGTH = 200
+NAME_PREVIEW = 20
 
 LANGUAGE_CODE = 'ru-ru'
 
@@ -118,54 +123,46 @@ USE_I18N = True
 
 USE_TZ = True
 
+STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
 REST_FRAMEWORK = {
-    'DEFAULT_FILTER_BACKENDS': [
-        'django_filters.rest_framework.DjangoFilterBackend'
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
     ],
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.AllowAny',
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend',
+        'rest_framework.filters.SearchFilter',
     ],
     'DEFAULT_PAGINATION_CLASS':
     'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 6,
 }
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
 DJOSER = {
     'LOGIN_FIELD': 'email',
+    'SEND_ACTIVATION_EMAIL': False,
     'SERIALIZERS': {
-        'user': 'api.serializers.CustomUserSerializer',
-        'current_user': 'api.serializers.CustomUserSerializer',
-        'user_create': 'api.serializers.CustomUserCreateSerializer',
+        'user_create': 'api.serializers.UserCreateSerializer',
+        'user': 'api.serializers.UserSerializer',
+        'current_user': 'api.serializers.UserSerializer',
     },
+
     'PERMISSIONS': {
-        'user': ('rest_framework.permissions.IsAuthenticated',),
-        'user_list': ('rest_framework.permissions.AllowAny',),
+        'user': ['djoser.permissions.CurrentUserOrAdminOrReadOnly'],
+        'user_list': ['rest_framework.permissions.IsAuthenticatedOrReadOnly'],
     },
     'HIDE_USERS': False,
-    'PASSWORD_RESET_CONFIRM_URL': '#/password/reset/confirm/{uid}/{token}',
-    'ACTIVATION_URL': '#/activate/{uid}/{token}',
-    'SEND_ACTIVATION_EMAIL': False,
 }
 
-CORS_ORIGIN_ALLOW_ALL = True
-CORS_URLS_REGEX = r'^/api/.*$'
-
-CORS_ALLOWED_ORIGINS = [
-    'http://*',
-]
-CSRF_TRUSTED_ORIGINS = [
-    ('http://*localhost'),
-    ('https://*localhost'),
-    ('http://127.0.0.1:8000/'),
-]
+MAX_EMAIL_LENGHT = 254
+MAX_LENGHT_1 = 150
+MAX_LENGHT_2 = 200

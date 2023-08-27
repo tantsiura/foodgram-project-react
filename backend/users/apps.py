@@ -2,6 +2,7 @@ from django.apps import AppConfig
 
 
 class UsersConfig(AppConfig):
-    '''Users application.'''
-    default_auto_field = 'django.db.models.AutoField'
+    default_auto_field = 'django.db.models.BigAutoField'
     name = 'users'
+    verbose_name = 'Users and followers'
+    verbose_name_plural = 'Users and followers'
