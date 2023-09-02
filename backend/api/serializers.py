@@ -3,8 +3,8 @@ from django.core.exceptions import BadRequest
 from djoser.serializers import UserCreateSerializer as BaseUserCreateSerializer
 from djoser.serializers import UserSerializer as BaseUserSerializer
 from drf_extra_fields.fields import Base64ImageField
-from rest_framework.exceptions import ValidationError
 from rest_framework import serializers
+from rest_framework.exceptions import ValidationError
 from recipes.models import Favorite as FavoriteModel
 from recipes.models import Ingredient as IngredientModel
 from recipes.models import IngredientRecipe as IngredientRecipeModel
@@ -131,7 +131,9 @@ class IngredientInRecipeSerializer(serializers.ModelSerializer):
 
     id = serializers.IntegerField(source='ingredient.id')
     name = serializers.CharField(source='ingredient.name')
-    measurement_unit = serializers.CharField(source='ingredient.measurement_unit')
+    measurement_unit = serializers.CharField(
+        source='ingredient.measurement_unit'
+    )
     amount = serializers.IntegerField(min_value=1)
 
     class Meta:
@@ -195,7 +197,9 @@ class IngredientInRecipeWriteSerializer(serializers.Serializer):
 
 class RecipeWriteSerializer(serializers.ModelSerializer):
 
-    tags = serializers.PrimaryKeyRelatedField(queryset=TagModel.objects.all(), many=True)
+    tags = serializers.PrimaryKeyRelatedField(
+        queryset=TagModel.objects.all(), many=True
+    )
     ingredients = IngredientInRecipeWriteSerializer(many=True)
     cooking_time = serializers.IntegerField(min_value=1)
     image = Base64ImageField()
@@ -273,7 +277,9 @@ class RecipeSimpleSerializer(serializers.ModelSerializer):
 class UserWithRecipesSerializer(UserSerializer):
 
     recipes = serializers.SerializerMethodField(read_only=True)
-    recipes_count = serializers.IntegerField(source='recipes.count', read_only=True)
+    recipes_count = serializers.IntegerField(
+        source='recipes.count', read_only=True
+    )
 
     class Meta(UserSerializer.Meta):
         fields = UserSerializer.Meta.fields + (

@@ -1,15 +1,3 @@
-from django.contrib.auth import get_user_model
-from django.db.models import F, Sum
-from django.http import HttpResponse
-from django_filters.rest_framework import DjangoFilterBackend
-from djoser.views import UserViewSet as BaseUserViewSet
-from rest_framework import status
-from rest_framework.decorators import action
-from rest_framework.permissions import (IsAuthenticated,
-                                        IsAuthenticatedOrReadOnly)
-from rest_framework.response import Response
-from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
-
 from api.filters import IngredientFilter, RecipeFilter
 from api.paginations import CustomPagination
 from api.permissions import IsAuthorOrAdminOrReadOnly
@@ -19,12 +7,23 @@ from api.serializers import (DummyUserSerializer, IngredientSerializer,
                              UserCreateSerializer, UserSerializer,
                              UserWithRecipesSerializer,
                              UserWSubscriptionSerializer)
+from django.contrib.auth import get_user_model
+from django.db.models import F, Sum
+from django.http import HttpResponse
+from django_filters.rest_framework import DjangoFilterBackend
+from djoser.views import UserViewSet as BaseUserViewSet
 from recipes.models import Favorite as FavoriteModel
 from recipes.models import Ingredient as IngredientModel
 from recipes.models import IngredientRecipe as IngredientRecipeModel
 from recipes.models import Recipe as RecipeModel
 from recipes.models import ShoppingСart as ShoppingСartModel
 from recipes.models import Tag as TagModel
+from rest_framework import status
+from rest_framework.decorators import action
+from rest_framework.permissions import (IsAuthenticated,
+                                        IsAuthenticatedOrReadOnly)
+from rest_framework.response import Response
+from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
 
 UserModel = get_user_model()
 
