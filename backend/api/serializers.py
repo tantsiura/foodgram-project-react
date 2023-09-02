@@ -4,11 +4,7 @@ from djoser.serializers import UserCreateSerializer as BaseUserCreateSerializer
 from djoser.serializers import UserSerializer as BaseUserSerializer
 from drf_extra_fields.fields import Base64ImageField
 from rest_framework.exceptions import ValidationError
-from rest_framework.serializers import (CharField, IntegerField,
-                                        ModelSerializer,
-                                        PrimaryKeyRelatedField, Serializer,
-                                        SerializerMethodField)
-
+from rest_framework import serializers
 from recipes.models import Favorite as FavoriteModel
 from recipes.models import Ingredient as IngredientModel
 from recipes.models import IngredientRecipe as IngredientRecipeModel
@@ -92,7 +88,7 @@ class UserSerializer(BaseUserSerializer):
 
 class UserWSubscriptionSerializer(UserSerializer):
 
-    is_subscribed = SerializerMethodField()
+    is_subscribed = serializers.SerializerMethodField()
 
     class Meta(UserSerializer.Meta):
         fields = UserSerializer.Meta.fields + (
@@ -107,12 +103,12 @@ class UserWSubscriptionSerializer(UserSerializer):
         return instance.following.filter(user=request.user).exists()
 
 
-class DummyUserSerializer(Serializer):
+class DummyUserSerializer(serializers.Serializer):
 
     pass
 
 
-class TagSerializer(ModelSerializer):
+class TagSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = TagModel
@@ -123,7 +119,7 @@ class TagSerializer(ModelSerializer):
         return value
 
 
-class IngredientSerializer(ModelSerializer):
+class IngredientSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = IngredientModel
@@ -131,12 +127,12 @@ class IngredientSerializer(ModelSerializer):
         read_only_fields = fields
 
 
-class IngredientInRecipeSerializer(ModelSerializer):
+class IngredientInRecipeSerializer(serializers.ModelSerializer):
 
-    id = IntegerField(source='ingredient.id')
-    name = CharField(source='ingredient.name')
-    measurement_unit = CharField(source='ingredient.measurement_unit')
-    amount = IntegerField(min_value=1)
+    id = serializers.IntegerField(source='ingredient.id')
+    name = serializers.CharField(source='ingredient.name')
+    measurement_unit = serializers.CharField(source='ingredient.measurement_unit')
+    amount = serializers.IntegerField(min_value=1)
 
     class Meta:
         model = IngredientRecipeModel
@@ -146,11 +142,11 @@ class IngredientInRecipeSerializer(ModelSerializer):
         read_only_fields = fields
 
 
-class RecipeReadSerializer(ModelSerializer):
+class RecipeReadSerializer(serializers.ModelSerializer):
     tags = TagSerializer(read_only=True, many=True)
     author = UserWSubscriptionSerializer(read_only=True)
-    is_favorited = SerializerMethodField()
-    is_in_shopping_cart = SerializerMethodField()
+    is_favorited = serializers.SerializerMethodField()
+    is_in_shopping_cart = serializers.SerializerMethodField()
     ingredients = IngredientInRecipeSerializer(
         source='ingredientrecipes', many=True
     )
@@ -182,10 +178,10 @@ class RecipeReadSerializer(ModelSerializer):
         ).exists()
 
 
-class IngredientInRecipeWriteSerializer(Serializer):
+class IngredientInRecipeWriteSerializer(serializers.Serializer):
 
-    id = IntegerField()
-    amount = IntegerField(min_value=1)
+    id = serializers.IntegerField()
+    amount = serializers.IntegerField(min_value=1)
 
     class Meta:
         fields = ('id', 'amount')
@@ -197,13 +193,13 @@ class IngredientInRecipeWriteSerializer(Serializer):
         return id_value
 
 
-class RecipeWriteSerializer(ModelSerializer):
+class RecipeWriteSerializer(serializers.ModelSerializer):
 
-    tags = PrimaryKeyRelatedField(queryset=TagModel.objects.all(), many=True)
+    tags = serializers.PrimaryKeyRelatedField(queryset=TagModel.objects.all(), many=True)
     ingredients = IngredientInRecipeWriteSerializer(many=True)
-    cooking_time = IntegerField(min_value=1)
+    cooking_time = serializers.IntegerField(min_value=1)
     image = Base64ImageField()
-    name = CharField(max_length=200)
+    name = serializers.CharField(max_length=200)
 
     class Meta:
         model = RecipeModel
@@ -267,7 +263,7 @@ class RecipeWriteSerializer(ModelSerializer):
         return instance
 
 
-class RecipeSimpleSerializer(ModelSerializer):
+class RecipeSimpleSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = RecipeModel
@@ -276,8 +272,8 @@ class RecipeSimpleSerializer(ModelSerializer):
 
 class UserWithRecipesSerializer(UserSerializer):
 
-    recipes = SerializerMethodField(read_only=True)
-    recipes_count = IntegerField(source='recipes.count', read_only=True)
+    recipes = serializers.SerializerMethodField(read_only=True)
+    recipes_count = serializers.IntegerField(source='recipes.count', read_only=True)
 
     class Meta(UserSerializer.Meta):
         fields = UserSerializer.Meta.fields + (
