@@ -1,7 +1,6 @@
+from recipes.models import Ingredient, IngredientsAmount
 from rest_framework import serializers
 from rest_framework.fields import IntegerField
-
-from recipes.models import Ingredient, IngredientsAmount
 
 
 class IngredientsSerializer(serializers.ModelSerializer):

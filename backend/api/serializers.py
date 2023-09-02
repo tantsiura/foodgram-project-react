@@ -3,8 +3,6 @@ from django.core.exceptions import BadRequest
 from djoser.serializers import UserCreateSerializer as BaseUserCreateSerializer
 from djoser.serializers import UserSerializer as BaseUserSerializer
 from drf_extra_fields.fields import Base64ImageField
-from rest_framework import serializers
-from rest_framework.exceptions import ValidationError
 from recipes.models import Favorite as FavoriteModel
 from recipes.models import Ingredient as IngredientModel
 from recipes.models import IngredientRecipe as IngredientRecipeModel
@@ -12,6 +10,8 @@ from recipes.models import Recipe as RecipeModel
 from recipes.models import ShoppingСart as ShoppingСartModel
 from recipes.models import Tag as TagModel
 from recipes.validators import validate_name as validate_tagname
+from rest_framework import serializers
+from rest_framework.exceptions import ValidationError
 from users.validators import validate_name, validate_username
 
 UserModel = get_user_model()

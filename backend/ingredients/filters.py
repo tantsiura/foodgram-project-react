@@ -1,6 +1,5 @@
-from rest_framework.filters import SearchFilter
-
 from recipes.models import Ingredient
+from rest_framework.filters import SearchFilter
 
 
 class IngredientsFilter(SearchFilter):

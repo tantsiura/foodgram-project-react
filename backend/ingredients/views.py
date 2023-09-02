@@ -1,6 +1,5 @@
-from rest_framework.viewsets import ReadOnlyModelViewSet
-
 from recipes.models import Ingredient
+from rest_framework.viewsets import ReadOnlyModelViewSet
 
 from .filters import IngredientsFilter
 from .permissions import AdminOrReadOnly
